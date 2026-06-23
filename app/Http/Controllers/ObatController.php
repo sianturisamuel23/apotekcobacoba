@@ -12,7 +12,7 @@ class ObatController extends Controller
      */
     public function index()
     {
-        //
+        return view('obat.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class ObatController extends Controller
      */
     public function create()
     {
-        //
+        return view('obat.create');
     }
 
     /**
@@ -28,7 +28,7 @@ class ObatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
