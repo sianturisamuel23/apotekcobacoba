@@ -12,6 +12,8 @@ Route::resource('obat', ObatController::class);
 
 Route::resource('supplier', SupplierController::class);
 
+Route::resource('kategori', KategoriController::class);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
