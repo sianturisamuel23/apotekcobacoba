@@ -12,5 +12,9 @@ class Obat extends Model
         'stok',
         'harga_jual'
     ];
+
+    public function detailPenjualans()
+    {
+        return $this->hasMany(DetailPenjualan::class);
+    }
 }
-?>
