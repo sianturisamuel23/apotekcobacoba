@@ -7,59 +7,83 @@ use Illuminate\Http\Request;
 
 class ObatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Menampilkan semua data obat
     public function index()
     {
-        return view('obat.index');
+        $obat = Obat::latest()->get();
+
+        return view('obat.index', compact('obat'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Menampilkan form tambah obat
     public function create()
     {
         return view('obat.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Menyimpan data obat
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'kode_obat' => 'required|unique:obats,kode_obat',
+            'nama_obat' => 'required',
+            'stok' => 'required|integer|min:0',
+            'harga_jual' => 'required|numeric|min:0',
+        ]);
+
+        Obat::create([
+            'kode_obat' => $request->kode_obat,
+            'nama_obat' => $request->nama_obat,
+            'stok' => $request->stok,
+            'harga_jual' => $request->harga_jual,
+        ]);
+
+        return redirect()
+            ->route('obat.index')
+            ->with('success', 'Data obat berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Obat $obat)
+    // Menampilkan form edit
+    public function edit($id)
     {
-        //
+        $obat = Obat::findOrFail($id);
+
+        return view('obat.edit', compact('obat'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Obat $obat)
+    // Mengupdate data obat
+    public function update(Request $request, $id)
     {
-        //
+        $obat = Obat::findOrFail($id);
+
+        $request->validate([
+            'kode_obat' => 'required|unique:obats,kode_obat,' . $id,
+            'nama_obat' => 'required',
+            'stok' => 'required|integer|min:0',
+            'harga_jual' => 'required|numeric|min:0',
+        ]);
+
+        $obat->update([
+            'kode_obat' => $request->kode_obat,
+            'nama_obat' => $request->nama_obat,
+            'stok' => $request->stok,
+            'harga_jual' => $request->harga_jual,
+        ]);
+
+        return redirect()
+            ->route('obat.index')
+            ->with('success', 'Data obat berhasil diupdate');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Obat $obat)
+    // Menghapus data obat
+    public function destroy($id)
     {
-        //
-    }
+        $obat = Obat::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Obat $obat)
-    {
-        //
+        $obat->delete();
+
+        return redirect()
+            ->route('obat.index')
+            ->with('success', 'Data obat berhasil dihapus');
     }
 }

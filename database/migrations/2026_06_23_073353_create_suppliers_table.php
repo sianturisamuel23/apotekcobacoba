@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('suppliers', function (Blueprint $table) {
+
             $table->id();
+
+            $table->string('nama_supplier');
+            $table->text('alamat');
+            $table->string('telepon');
+            $table->string('email')->nullable();
+
             $table->timestamps();
+
         });
     }
 
@@ -25,3 +33,4 @@ return new class extends Migration
         Schema::dropIfExists('suppliers');
     }
 };
+?>
